@@ -6,10 +6,81 @@ dist/
 wheels/
 *.egg-info
 .venv/
-.env
+.env*
 .ipynb_checkpoints/
 data/processed/
+data/raw/
+models/
 uv.lock
 .DS_Store
 Thumbs.db
+
+# 🔐 Credenciais e chaves (SEGURANÇA CRÍTICA)
 .kaggle/**
+kaggle.json
+*.key
+*.pem
+*.p12
+*.pfx
+config.ini
+config.json
+secrets.json
+credentials.json
+auth.json
+token.txt
+*.token
+
+# 🔒 Variáveis de ambiente sensíveis
+.env*
+!.env.example
+.envrc
+.secrets
+.local
+
+# 📊 Dados sensíveis
+*.csv
+*.xlsx
+*.json
+*.parquet
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+!example*.csv
+!sample*.csv
+
+# 🖥️ IDE e editores
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# 📱 Logs e temporários
+*.log
+*.tmp
+*.temp
+logs/
+temp/
+tmp/
+
+# 🌐 Sistema operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# 🔧 Ferramentas específicas
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
