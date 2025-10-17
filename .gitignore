@@ -12,3 +12,4 @@ data/processed/
 uv.lock
 .DS_Store
 Thumbs.db
+.kaggle/**
