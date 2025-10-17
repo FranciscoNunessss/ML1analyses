@@ -1,0 +1,14 @@
+# 🐍 Python cache & build files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv/
+.env
+.ipynb_checkpoints/
+data/processed/
+uv.lock
+.DS_Store
+Thumbs.db
