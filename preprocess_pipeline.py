@@ -1,7 +1,4 @@
-# ===============================================
-# preprocess_pipeline.py
-# Criação da pipeline de transformação de dados
-# ===============================================
+
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -9,7 +6,6 @@ from sklearn.pipeline import Pipeline
 import joblib
 from pathlib import Path
 
-# Caminhos
 DATA_PROCESSED = Path("data/processed/cardio_clean.parquet")
 MODELS_DIR = Path("models")
 MODELS_DIR.mkdir(exist_ok=True)
@@ -22,7 +18,6 @@ def build_preprocessor(df: pd.DataFrame):
         - OneHotEncoder para variáveis categóricas
         - StandardScaler para variáveis numéricas
     """
-    # Separar colunas por tipo (Parquet não preserva category, então definimos manualmente)
     cat_cols = [
         col
         for col in ["gender", "cholesterol", "gluc", "smoke", "alco", "active"]
@@ -42,7 +37,6 @@ def build_preprocessor(df: pd.DataFrame):
         ]
     )
 
-    # Pipeline (podes adicionar steps extra no futuro, ex: imputação)
     pipe = Pipeline(steps=[("preprocessor", preprocessor)])
     return pipe
 
@@ -55,7 +49,6 @@ def save_preprocessor():
     X = df.drop(columns=["cardio"])
     y = df["cardio"]
 
-    # Ajusta a pipeline (fit) para aprender dimensões e categorias
     pipe.fit(X, y)
 
     out_path = MODELS_DIR / "preprocessor.pkl"
