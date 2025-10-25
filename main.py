@@ -7,23 +7,17 @@ import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
 
-# --------------------------------------------
-# Constantes de paths
-# --------------------------------------------
 ROOT = Path(__file__).parent
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 NOTEBOOK_DIR = ROOT / "notebook"
 
-DATASET_REF = "sulianova/cardiovascular-disease-dataset"  # Kaggle dataset slug
-ZIP_NAME = "cardio.zip"  # nome local para o zip
-CSV_NAME = "cardio_train.csv"  # nome do csv dentro do zip/dataset
+DATASET_REF = "sulianova/cardiovascular-disease-dataset" 
+ZIP_NAME = "cardio.zip"
+CSV_NAME = "cardio_train.csv"  
 
 
-# --------------------------------------------
-# Kaggle helper
-# --------------------------------------------
 def _ensure_kaggle_creds():
     """
     Lê credenciais do .env (se existirem) ou usa ~/.kaggle/kaggle.json.
