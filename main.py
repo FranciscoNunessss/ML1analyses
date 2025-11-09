@@ -48,9 +48,7 @@ def download():
     """Faz download do dataset via API Kaggle para data/raw."""
     _ensure_kaggle_creds()
     RAW_DIR.mkdir(parents=True, exist_ok=True)
-
-    # Import aqui para evitar custo quando não é preciso
-    from kaggle import api  # type: ignore
+    from kaggle import api  
 
     print(f"⤵️  A descarregar {DATASET_REF} …")
     api.dataset_download_files(
@@ -60,15 +58,12 @@ def download():
         force=True,
     )
 
-    # O Kaggle guarda como .zip; vamos normalizar o nome
-    # Procura o único zip na pasta raw
     zips = list(RAW_DIR.glob("*.zip"))
     if not zips:
         raise FileNotFoundError("Nenhum .zip encontrado após o download do Kaggle.")
     zips[0].replace(RAW_DIR / ZIP_NAME)
     print(f"📦 Guardado em {RAW_DIR / ZIP_NAME}")
 
-    # Extrair
     with zipfile.ZipFile(RAW_DIR / ZIP_NAME, "r") as zf:
         zf.extractall(RAW_DIR)
     print(f"🗃️  Ficheiros extraídos para {RAW_DIR}")
@@ -86,28 +81,20 @@ def preprocess():
 
     df = pd.read_csv(csv_path, sep=";")
 
-    # Renomeações simples
     df.columns = [c.strip().lower() for c in df.columns]
-    # target é 'cardio' (0/1)
-
-    # Corrigir idades (dataset tem 'age' em dias)
     if "age" in df.columns:
         df["age_years"] = (df["age"] / 365.25).round(1)
         df.drop(columns=["age"], inplace=True)
 
-    # Discretizar 'ap_hi'/'ap_bp' outliers básicos
-    # (remoção de outliers grosseiros por percentis)
     for col in ["ap_hi", "ap_lo", "height", "weight"]:
         if col in df.columns:
             q01, q99 = df[col].quantile([0.01, 0.99])
             df[col] = df[col].clip(lower=q01, upper=q99)
 
-    # IMC
     if {"height", "weight"}.issubset(df.columns):
         h_m = df["height"] / 100.0
         df["bmi"] = (df["weight"] / (h_m**2)).round(2)
 
-    # Categóricas para tipo category
     cat_cols = [
         c
         for c in ["gender", "cholesterol", "gluc", "smoke", "alco", "active"]
@@ -116,7 +103,6 @@ def preprocess():
     for c in cat_cols:
         df[c] = df[c].astype("category")
 
-    # Ordenação de colunas (target no fim)
     cols = [c for c in df.columns if c != "cardio"] + ["cardio"]
     df = df[cols]
 
