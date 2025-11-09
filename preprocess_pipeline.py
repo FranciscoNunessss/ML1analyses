@@ -25,11 +25,9 @@ def build_preprocessor(df: pd.DataFrame):
     ]
     num_cols = [col for col in df.columns if col not in cat_cols + ["cardio", "id"]]
 
-    # Transformers individuais
     cat_transformer = OneHotEncoder(handle_unknown="ignore")
     num_transformer = StandardScaler()
 
-    # ColumnTransformer
     preprocessor = ColumnTransformer(
         transformers=[
             ("num", num_transformer, num_cols),
